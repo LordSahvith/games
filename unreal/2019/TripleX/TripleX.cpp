@@ -21,7 +21,19 @@ int main()
   std::cout << "The codes add-up to: " << CodeSum << std::endl;
   std::cout << "The codes multiply to give: " << CodeProduct << std::endl;
 
-  int PlayerGuess;
+  // Get player guess & print it to the terminal
+  int GuessA, GuessB, GuessC;
+  std::cout << std::endl << "Enter guess (a b c): ";
+  std::cin >> GuessA;
+  std::cin >> GuessB;
+  std::cin >> GuessC;
+  std::cout << "You entered: " << GuessA << " " << GuessB << " " << GuessC << std::endl;
+
+  int GuessSum = GuessA + GuessB + GuessC;
+  int GuessProduct = GuessA * GuessB * GuessC;
+
+  std::cout << "Your guess adds up to: " << GuessSum << std::endl;
+  std::cout << "Your guess multiplies to: " << GuessProduct << std::endl;
 
   // End game
   return 0;
