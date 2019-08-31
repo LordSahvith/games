@@ -32,8 +32,15 @@ int main()
   int GuessSum = GuessA + GuessB + GuessC;
   int GuessProduct = GuessA * GuessB * GuessC;
 
-  std::cout << "Your guess adds up to: " << GuessSum << std::endl;
-  std::cout << "Your guess multiplies to: " << GuessProduct << std::endl;
+  // std::cout << "Your guess adds up to: " << GuessSum << std::endl;
+  // std::cout << "Your guess multiplies to: " << GuessProduct << std::endl;
+
+  if (GuessSum == CodeSum && GuessProduct == CodeProduct) 
+  {
+    std::cout << "You win!" << std::endl;
+  } else {
+    std::cout << "KA'BOOOM! You were blown to pieces." << std::endl;
+  }
 
   // End game
   return 0;
