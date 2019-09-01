@@ -1,11 +1,30 @@
 #include <iostream>
+/*
+  _____        __ _ _ _             _   _             
+ |_   _|      / _(_) | |           | | (_)            
+   | |  _ __ | |_ _| | |_ _ __ __ _| |_ _  ___  _ __  
+   | | | '_ \|  _| | | __| '__/ _` | __| |/ _ \| '_ \ 
+  _| |_| | | | | | | | |_| | | (_| | |_| | (_) | | | |
+ |_____|_| |_|_| |_|_|\__|_|  \__,_|\__|_|\___/|_| |_|
+         
+*/
 
-int main()
+void Introduction() 
 {
   // Print welcome message to the terminal 
-  std::cout << std::endl << "You are wetboy assassin hired by the Sa'kage to infiltrate the castle...";
-  std::cout << std::endl;
-  std::cout << "In order to enter the first door you must pick the lock..." << std::endl;
+  std::cout << " _____        __ _ _ _             _   _             \n";
+  std::cout << "|_   _|      / _(_) | |           | | (_)            \n";
+  std::cout << "  | |  _ __ | |_ _| | |_ _ __ __ _| |_ _  ___  _ __  \n";
+  std::cout << "  | | | '_ \\|  _| | | __| '__/ _` | __| |/ _ \\| '_ \\ \n";
+  std::cout << " _| |_| | | | | | | | |_| | | (_| | |_| | (_) | | | |\n";
+  std::cout << "|_____|_| |_|_| |_|_|\\__|_|  \\__,_|\\__|_|\\___/|_| |_|\n";
+  std::cout << std::endl << "You are wetboy assassin hired by the Sa'kage to infiltrate the castle...\n";
+  std::cout << "In order to enter the first door you must pick the lock by guessing the 3 numbers...\n\n";
+}
+
+void PlayGame()
+{
+  Introduction();
 
   // Declare the 3 number code
   const int CodeA = 4;
@@ -16,32 +35,32 @@ int main()
   const int CodeProduct = CodeA * CodeB * CodeC;
 
   // Print CodeSum & CodeProduct to the terminal
-  std::cout << std::endl;
-  std::cout << "There are 3 numbers in the code" << std::endl;
-  std::cout << "The codes add-up to: " << CodeSum << std::endl;
-  std::cout << "The codes multiply to give: " << CodeProduct << std::endl;
+  std::cout << "There are 3 numbers in the code\n";
+  std::cout << "The codes add-up to: " << CodeSum;
+  std::cout << "\nThe codes multiply to give: " << CodeProduct;
 
-  // Get player guess & print it to the terminal
+  // Store player guess 
   int GuessA, GuessB, GuessC;
-  std::cout << std::endl << "Enter guess (a b c): ";
-  std::cin >> GuessA;
-  std::cin >> GuessB;
-  std::cin >> GuessC;
-  std::cout << "You entered: " << GuessA << " " << GuessB << " " << GuessC << std::endl;
-
+  std::cout << "\n\nEnter guess: ";
+  std::cin >> GuessA >> GuessB >> GuessC;
+ 
   int GuessSum = GuessA + GuessB + GuessC;
   int GuessProduct = GuessA * GuessB * GuessC;
 
-  // std::cout << "Your guess adds up to: " << GuessSum << std::endl;
-  // std::cout << "Your guess multiplies to: " << GuessProduct << std::endl;
-
+  // Check if player's guess is correct
   if (GuessSum == CodeSum && GuessProduct == CodeProduct) 
   {
-    std::cout << "You win!" << std::endl;
-  } else {
-    std::cout << "KA'BOOOM! You were blown to pieces." << std::endl;
+    std::cout << "\nYou win!\n";
+  } 
+  else 
+  {
+    std::cout << "\nKA'BOOOM! You were blown to pieces.\n";
   }
+}
 
-  // End game
+int main()
+{
+  PlayGame();
+  
   return 0;
 }
