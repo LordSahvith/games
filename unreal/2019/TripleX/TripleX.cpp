@@ -83,9 +83,9 @@ bool PlayGame(int Level, int NumberOfCodes)
   Levels(Level, NumberOfCodes);
 
   // Declare the 3 number code
-  const int CodeA = 3;
-  const int CodeB = 3;
-  const int CodeC = 3;
+  const int CodeA = rand() % 10;
+  const int CodeB = rand() % 10;
+  const int CodeC = rand() % 10;
 
   const int CodeSum = CodeA + CodeB + CodeC;
   const int CodeProduct = CodeA * CodeB * CodeC;
