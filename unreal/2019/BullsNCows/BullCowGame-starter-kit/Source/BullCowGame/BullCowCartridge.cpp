@@ -4,12 +4,21 @@
 void UBullCowCartridge::BeginPlay() // When the game starts
 {
     Super::BeginPlay();
-    PrintLine("Howdy Partner!");
-    PrintLine("Press enter to continue...");
+    PrintLine(TEXT("Howdy Partner!"));
+    PrintLine(TEXT("Guess the 6 letter word")); // Magic number remove!
+    PrintLine(TEXT("Press enter to continue..."));
 }
 
 void UBullCowCartridge::OnInput(const FString& Input) // When the player hits enter
 {
   ClearScreen();
-  FString HiddenWord = "naruto";
+  FString HiddenWord = TEXT("naruto"); // move outside this function
+  PrintLine(Input);
+
+  if (Input == HiddenWord) {
+    PrintLine(TEXT("Nice Job."));
+  }
+  else {
+    PrintLine(TEXT("Maybe next time."));
+  }
 }
