@@ -12,19 +12,45 @@
 void Introduction()
 {
   // Print welcome message to the terminal
+  std::cout << "\n\n";
   std::cout << " _____        __ _ _ _             _   _             \n";
   std::cout << "|_   _|      / _(_) | |           | | (_)            \n";
   std::cout << "  | |  _ __ | |_ _| | |_ _ __ __ _| |_ _  ___  _ __  \n";
   std::cout << "  | | | '_ \\|  _| | | __| '__/ _` | __| |/ _ \\| '_ \\ \n";
   std::cout << " _| |_| | | | | | | | |_| | | (_| | |_| | (_) | | | |\n";
   std::cout << "|_____|_| |_|_| |_|_|\\__|_|  \\__,_|\\__|_|\\___/|_| |_|\n\n";
-  std::cout << "You're a Wetboy Assassin hired by the Sa'kage to infiltrate the castle...\n";
-  std::cout << "In order to enter the first door you must pick the lock by guessing the 3 numbers...\n\n";
+  std::cout << "You're a Wetboy Assassin hired by the Sa'kage.\n";
+  std::cout << "They want you to rid the country of the insulent King.\n";
+  std::cout << "Your task is simple...you must infiltrate the castle,\nfind the King unnoticed and kill him.\n\n";
 }
 
-bool PlayGame()
+void Levels(int Level, int Codes)
 {
-  Introduction();
+  if (Level == 1)
+  {
+    std::cout << "The first door you come to has a level of " << Level << ".\n";
+  }
+  else if (Level == 4)
+  {
+    std::cout << "The King is just beyond this door.\n";
+    std::cout << "Listen quietly and you can hear his unsuspecting snoring.\n";
+    std::cout << "Once inside dispatch of him silently and quickly.\n\n";
+  }
+  else
+  {
+    std::cout << "This door has a level of " << Level << ".\n";
+  }
+  std::cout << "You must pick the lock by guessing the " << Codes << " codes...\n\n";
+}
+
+bool PlayGame(int Level)
+{
+  if (Level == 1)
+  {
+    Introduction();
+  }
+
+  Levels(Level, 3);
 
   // Declare the 3 number code
   const int CodeA = 4;
@@ -35,13 +61,12 @@ bool PlayGame()
   const int CodeProduct = CodeA * CodeB * CodeC;
 
   // Print CodeSum & CodeProduct to the terminal
-  std::cout << "There are 3 numbers in the code\n";
   std::cout << "The codes add-up to: " << CodeSum;
   std::cout << "\nThe codes multiply to give: " << CodeProduct;
 
   // Store player guess
   int GuessA, GuessB, GuessC;
-  std::cout << "\n\nEnter guess: ";
+  std::cout << "\n\nYou enter: ";
   std::cin >> GuessA >> GuessB >> GuessC;
 
   int GuessSum = GuessA + GuessB + GuessC;
@@ -50,7 +75,14 @@ bool PlayGame()
   // Check if player's guess is correct
   if (GuessSum == CodeSum && GuessProduct == CodeProduct)
   {
-    std::cout << "\nYou win!\n\n";
+    if (Level < 4)
+    {
+      std::cout << "\nWell done. You've successfully unlocked this door.\n\n";
+    }
+    else
+    {
+      std::cout << "\nWell done. You've successfully assassinated the King.\n\n";
+    }
     return true;
   }
   else
@@ -62,13 +94,17 @@ bool PlayGame()
 
 int main()
 {
-  bool bContinue = true;
-  while (bContinue)
+  int LevelDifficulty = 1;
+  while (LevelDifficulty <= 4)
   {
-    bool bLevelComplete = PlayGame();
-    std::cin.clear(); // clears any errors
+    bool bLevelComplete = PlayGame(LevelDifficulty);
+    std::cin.clear();  // clears any errors
     std::cin.ignore(); // discards the buffer
-    bContinue = !bLevelComplete;
+
+    if (bLevelComplete)
+    {
+      ++LevelDifficulty;
+    }
   }
 
   return 0;
