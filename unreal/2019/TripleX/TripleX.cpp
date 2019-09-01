@@ -131,12 +131,12 @@ bool PlayGame(int Level, int NumberOfCodes)
   // Check if player's guess is correct
   if (GuessSum == CodeSum && GuessProduct == CodeProduct)
   {
-    if (Level < 4)
+    if (Level < 4) // check if not last level and print this mesage
     {
       std::cout << "\nWell done. You've successfully unlocked this door.\n\n";
       ContinueStory();
     }
-    else
+    else // print last level message
     {
       std::cout << "\nWell done. You've successfully assassinated the King.\n";
       std::cout << "Now get out of there unseen.\n\n";
