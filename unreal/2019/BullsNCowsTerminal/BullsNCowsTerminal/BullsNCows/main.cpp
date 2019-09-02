@@ -4,19 +4,20 @@
 void PrintIntro();
 void PlayGame();
 std::string GetGuess();
-void PrintGuess(std::string);
+bool AskToPlayAgain();
 
 int main()
 {
 	PrintIntro();
 	PlayGame();
+	AskToPlayAgain();
 	return 0; // exit application
 }
 
 void PlayGame()
 {
 	// loop for the number of turns asking for guesses
-	constexpr int NUMBER_OF_TURNS = 5;
+	constexpr int NUMBER_OF_TURNS = 3;
 	for (int count = 0; count < NUMBER_OF_TURNS; count++) {
 		std::string Guess = GetGuess();
 		std::cout << "Your guess: " << Guess << std::endl << std::endl;
@@ -42,4 +43,12 @@ std::string GetGuess()
 	std::cout << "Enter guess: ";
 	std::getline(std::cin, Guess);
 	return Guess;
+}
+
+bool AskToPlayAgain()
+{
+	std::cout << "Do you want to play again?";
+	std::string Response = "";
+	getline(std::cin, Response);
+	return (Response[0] == 'y') || (Response[0] == 'Y');
 }
