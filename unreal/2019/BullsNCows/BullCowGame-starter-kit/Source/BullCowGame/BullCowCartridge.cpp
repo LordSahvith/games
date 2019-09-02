@@ -9,9 +9,7 @@ void UBullCowCartridge::BeginPlay() // When the game starts
     PrintLine(TEXT("Guess the 6 letter word")); // Magic number remove!
     PrintLine(TEXT("Press enter to continue..."));
 
-    // setup game
-    HiddenWord = TEXT("naruto"); // get isogram
-    // set lives
+    InitGame(); // setup game
 
     // prompt player for guess
 }
@@ -31,7 +29,7 @@ void UBullCowCartridge::OnInput(const FString& Input) // When the player hits en
     PrintLine(TEXT("Maybe next time."));
   }
 
-  // check if isogram
+  // check if isogram0
   // prompt to guess again
   // check right number of characters
   // prompt to guess again
@@ -45,4 +43,10 @@ void UBullCowCartridge::OnInput(const FString& Input) // When the player hits en
   // Prompt to Play Again, press enter to play again? 
   // check user input
   // PlayAgain or quit
+}
+
+void UBullCowCartridge::InitGame()
+{
+    HiddenWord = TEXT("naruto");
+    Lives = 4; 
 }
