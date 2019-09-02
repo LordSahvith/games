@@ -13,10 +13,6 @@ void UBullCowCartridge::BeginPlay() // When the game starts
 
 void UBullCowCartridge::OnInput(const FString &Input) // When the player hits enter
 {
-  /* 
-  else 
- */
-
   if (bGameOver)
   {
     ClearScreen();
@@ -31,14 +27,22 @@ void UBullCowCartridge::OnInput(const FString &Input) // When the player hits en
     }
     else
     {
-      if (Input.Len() != HiddenWord.Len())
+      --Lives;
+      PrintLine(TEXT("Life lost!"));
+      PrintLine(TEXT("You have %i lives left."), Lives);
+      if (Lives > 0)
       {
-        PrintLine(TEXT("Word is %i letters long, you lost."), HiddenWord.Len());
-        EndGame();
+        if (Input.Len() != HiddenWord.Len())
+        {
+          PrintLine(TEXT("Word is %i letters long, try again."), HiddenWord.Len());
+        }
+        else
+        {
+          PrintLine(TEXT("Try again."));
+        }
       }
       else
       {
-        PrintLine(TEXT("You lost."));
         EndGame();
       }
     }
@@ -66,10 +70,11 @@ void UBullCowCartridge::SetupGame()
   PrintLine(TEXT("Howdy Partner!"));
 
   HiddenWord = TEXT("force");
-  Lives = 4;
+  Lives = HiddenWord.Len();
   bGameOver = false;
 
   PrintLine(TEXT("Guess the %i letter isogram."), HiddenWord.Len());
+  PrintLine(TEXT("You have %i lives."), Lives);
   PrintLine(TEXT("Type in your guess...")); // prompt player for guess
 }
 
