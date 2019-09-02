@@ -2,21 +2,26 @@
 #include <string>
 
 void PrintIntro();
-std::string GetGuessAndPrintBack();
+void PlayGame();
+std::string GetGuess();
+void PrintGuess(std::string);
 
 int main()
 {
 	PrintIntro();
+	PlayGame();
+	return 0; // exit application
+}
 
+void PlayGame()
+{
 	// loop for the number of turns asking for guesses
 	constexpr int NUMBER_OF_TURNS = 5;
 	for (int count = 0; count < NUMBER_OF_TURNS; count++) {
-		GetGuessAndPrintBack();
+		GetGuess();
 		std::cout << std::endl;
 	}
-
 	std::cout << std::endl;
-	return 0;
 }
 
 // introduce the game
@@ -31,13 +36,17 @@ void PrintIntro()
 }
 
 // get a guess from the player
-std::string GetGuessAndPrintBack()
+std::string GetGuess()
 {
 	std::string Guess = "";
 	std::cout << "Enter guess: ";
 	std::getline(std::cin, Guess);
-
-	// repeat the guess back to them
-	std::cout << "Your guess: " << Guess << std::endl;
+	PrintGuess(Guess);
 	return Guess;
+}
+
+// repeat the guess back to them
+void PrintGuess(std::string Guess)
+{
+	std::cout << "Your guess: " << Guess << std::endl;
 }
