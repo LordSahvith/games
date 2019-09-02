@@ -3,29 +3,39 @@
 
 void UBullCowCartridge::BeginPlay() // When the game starts
 {
-    // welcoming player 
-    Super::BeginPlay();
-    PrintLine(TEXT("Howdy Partner!"));
-    PrintLine(TEXT("Guess the 6 letter word")); // Magic number remove!
-    PrintLine(TEXT("Press enter to continue..."));
+  // welcoming player
+  Super::BeginPlay();
 
-    InitGame(); // setup game
+  SetupGame(); // setup game
 
-    // prompt player for guess
+  PrintLine(TEXT("The HiddenWord is: %s."), *HiddenWord); // Debug line
+
+  // Welcome Player
+  PrintLine(TEXT("Howdy Partner!"));
+  PrintLine(TEXT("Guess the %i letter isogram."), HiddenWord.Len());
+  PrintLine(TEXT("Type in your guess..."));
+
+  // prompt player for guess
 }
 
-void UBullCowCartridge::OnInput(const FString& Input) // When the player hits enter
+void UBullCowCartridge::OnInput(const FString &Input) // When the player hits enter
 {
   ClearScreen();
 
-  // checking PlayerGuessd
+  // checking PlayerGuess
 
   PrintLine(Input);
 
-  if (Input == HiddenWord) {
+  if (Input == HiddenWord)
+  {
     PrintLine(TEXT("Nice Job."));
   }
-  else {
+  else
+  {
+    if (Input.Len() != HiddenWord.Len())
+    {
+      PrintLine(TEXT("Word is %i letters long, try again."), HiddenWord.Len());
+    }
     PrintLine(TEXT("Maybe next time."));
   }
 
@@ -40,13 +50,13 @@ void UBullCowCartridge::OnInput(const FString& Input) // When the player hits en
   // if yes GuessAgain
   // Show lives left
   // if no show GameOver & HiddenWord
-  // Prompt to Play Again, press enter to play again? 
+  // Prompt to Play Again, press enter to play again?
   // check user input
   // PlayAgain or quit
 }
 
-void UBullCowCartridge::InitGame()
+void UBullCowCartridge::SetupGame()
 {
-    HiddenWord = TEXT("naruto");
-    Lives = 4; 
+  HiddenWord = TEXT("force");
+  Lives = 4;
 }
