@@ -8,9 +8,11 @@ bool AskToPlayAgain();
 
 int main()
 {
-	PrintIntro();
-	PlayGame();
-	AskToPlayAgain();
+	do {
+		PrintIntro();
+		PlayGame();
+	} while (AskToPlayAgain());
+
 	return 0; // exit application
 }
 
