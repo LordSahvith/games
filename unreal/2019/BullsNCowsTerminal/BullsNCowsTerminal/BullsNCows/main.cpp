@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include "FBullsNCows.h"
 
 void PrintIntro();
 void PlayGame();
@@ -18,8 +19,10 @@ int main()
 
 void PlayGame()
 {
+  FBullCowGame BCGame; // instantiate a new game
+
 	// loop for the number of turns asking for guesses
-	constexpr int NUMBER_OF_TURNS = 3;
+	constexpr int NUMBER_OF_TURNS = 2;
 	for (int count = 0; count < NUMBER_OF_TURNS; count++) {
 		std::string Guess = GetGuess();
 		std::cout << "Your guess: " << Guess << std::endl << std::endl;
