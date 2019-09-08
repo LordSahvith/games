@@ -1,7 +1,10 @@
+#pragma once
+
 #include "FBullsNCows.h"
 #include <map>
 #define TMap std::map
 
+// to make syntax Unreal friendly
 using FString = std::string;
 using int32 = int;
 
@@ -15,6 +18,7 @@ bool FBullCowGame::IsGameWon() const { return bGameIsWon; }
 
 int32 FBullCowGame::GetMaxTries() const
 {
+  // sets number of tries to length of hidden word
   TMap<int32, int32> WordLengthToMaxTries{ {3, 4}, {4, 7}, {5, 10}, {6, 15}, {7, 20} };
   return WordLengthToMaxTries[GetHiddenWordLength()];
 }
@@ -27,7 +31,7 @@ EGuessStatus FBullCowGame::CheckGuessValidity(FString Guess) const
   }
   else if (!IsLowercase(Guess)) // if the guess isn't all lowercase
   {
-    return EGuessStatus::Not_Lowercase; // TODO write function
+    return EGuessStatus::Not_Lowercase;
   }
   else if (Guess.length() != GetHiddenWordLength()) // if the guess length is wrong
   {
@@ -42,7 +46,7 @@ EGuessStatus FBullCowGame::CheckGuessValidity(FString Guess) const
 // Reset game
 void FBullCowGame::Reset()
 {
-  const FString HIDDEN_WORD = "planet";
+  const FString HIDDEN_WORD = "plane"; // word MUST be an isogram
   MyHiddenWord = HIDDEN_WORD;
   MyCurrentTry = 1;
   bGameIsWon = false;
