@@ -53,7 +53,7 @@ void PlayGame()
     FBullCowCount BullCowCount = BCGame.SubmitValidGuess(Guess);
 
     std::cout << "Bulls = " << BullCowCount.Bulls;
-    std::cout << "  Cows = " << BullCowCount.Cows << "\n\n";
+    std::cout << "  Cows = " << BullCowCount.Cows << "\n";
   }
 
   PrintGameSummary();
@@ -76,13 +76,13 @@ FText GetValidGuess()
     switch (Status)
     {
     case EGuessStatus::Wrong_Length:
-      std::cout << "Please enter a " << BCGame.GetHiddenWordLength() << " letter word.";
+      std::cout << "Please enter a " << BCGame.GetHiddenWordLength() << " letter word.\n";
       break;
     case EGuessStatus::Not_Isogram:
-      std::cout << "Please enter a word without repeating any letters.";
+      std::cout << "Please enter a word without repeating any letters.\n";
       break;
     case EGuessStatus::Not_Lowercase:
-      std::cout << "Please enter all lowercase letters.";
+      std::cout << "Please enter all lowercase letters.\n";
       break;
     default:
       // assume guess is valid
@@ -104,11 +104,11 @@ void PrintGameSummary()
 {
   if (BCGame.IsGameWon())
   {
-    std::cout << "Nice Job! You guessed the right word!\n\n";
+    std::cout << "\nNice Job! You guessed the right word!\n\n";
   }
   else
   {
-    std::cout << "Better luck next time.\n\n";
+    std::cout << "\nBetter luck next time.\n\n";
   }
   return;
 }
