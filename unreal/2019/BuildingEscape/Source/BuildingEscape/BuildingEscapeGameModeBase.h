@@ -4,13 +4,13 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameModeBase.h"
-#include "BuildingEscpaeGameModeBase.generated.h"
+#include "BuildingEscapeGameModeBase.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class BUILDINGESCPAE_API ABuildingEscpaeGameModeBase : public AGameModeBase
+class BUILDINGESCAPE_API ABuildingEscapeGameModeBase : public AGameModeBase
 {
 	GENERATED_BODY()
 	
