@@ -1,7 +1,8 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+/* Following Udemy Course */
 
-#include "DrawDebugHelpers.h"
 #include "Grabber.h"
+#include "DrawDebugHelpers.h"
+#include "CollisionQueryParams.h"
 
 #define OUT
 
@@ -22,6 +23,13 @@ void UGrabber::BeginPlay()
 	Super::BeginPlay();
 
   UE_LOG(LogTemp, Warning, TEXT("Grabber is working."));		
+
+  // look for attached physics hanle
+  PhysicsHandle = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
+  if (!PhysicsHandle) 
+  {
+    UE_LOG(LogTemp, Error, TEXT("%s missing physics handle component"), *GetOwner()->GetName());
+  }
 }
 
 
@@ -54,6 +62,25 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
     10.f
   );
 
+  // setup query parameters
+  FCollisionQueryParams TraceParameters(FName(TEXT("")), false, GetOwner());
+
+  // line-trace (aka ray-cast) out to reach distance
+  FHitResult Hit;
+  GetWorld()->LineTraceSingleByObjectType(
+    OUT Hit,
+    PlayerViewPointLocation,
+    LineTraceEnd,
+    FCollisionObjectQueryParams(ECollisionChannel::ECC_PhysicsBody),
+    TraceParameters
+  );
+
+
   // See what we hit
+  AActor* ActorHit = Hit.GetActor();
+  if (ActorHit) 
+  {
+    UE_LOG(LogTemp, Warning, TEXT("In contact with: %s"), *(ActorHit->GetName()));
+  }
 }
 

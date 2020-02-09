@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "Components/ActorComponent.h"
+#include "PhysicsEngine/PhysicsHandleComponent.h"
 #include "Grabber.generated.h"
 
 
@@ -28,5 +29,6 @@ private:
   // how far the player can reach an item
   float reach = 100.f;
 
+  UPhysicsHandleComponent* PhysicsHandle = nullptr;
 		
 };
