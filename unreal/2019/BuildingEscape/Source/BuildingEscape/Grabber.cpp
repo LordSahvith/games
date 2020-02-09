@@ -12,26 +12,30 @@ UGrabber::UGrabber()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
-
-	// ...
 }
 
 
 // Called when the game starts
 void UGrabber::BeginPlay()
 {
-	Super::BeginPlay();
+	Super::BeginPlay();	
+  FindPhysicsHandleComponent();
+  SetupInputComponent();
+}
 
-  UE_LOG(LogTemp, Warning, TEXT("Grabber is working."));		
-
-  // look for attached physics hanle
+// look for attached physics handle
+void UGrabber::FindPhysicsHandleComponent()
+{
   PhysicsHandle = GetOwner()->FindComponentByClass<UPhysicsHandleComponent>();
   if (!PhysicsHandle) 
   {
     UE_LOG(LogTemp, Error, TEXT("%s missing physics handle component"), *GetOwner()->GetName());
   }
+}
 
-  // look for attached Input Component (only appears at run time)
+// look for attached Input Component (only appears at run time)
+void UGrabber::SetupInputComponent()
+{
   InputComponent = GetOwner()->FindComponentByClass<UInputComponent>();
   if (InputComponent)
   {
@@ -49,11 +53,18 @@ void UGrabber::BeginPlay()
 void UGrabber::Grab()
 {
   UE_LOG(LogTemp, Warning, TEXT("Grab Pressed."));
+
+  // Line trace and see if we reach any actors with physics body collision channel set
+  GetFirstPhysicsBodyInReach();
+
+  // If we hit something then attach a physics handle
+  // TODO attach physics handle
 }
 
 void UGrabber::Release()
 {
   UE_LOG(LogTemp, Warning, TEXT("Grab Released."));
+  // TODO release physics handle
 }
 
 
@@ -62,6 +73,13 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
+  // if the physics handle is attached 
+    // move the object that we're holding
+
+}
+
+FHitResult UGrabber::GetFirstPhysicsBodyInReach() const
+{
 	// Get player view point this tick
   FVector PlayerViewPointLocation;
   FRotator PlayerViewPointRotator;
@@ -106,5 +124,5 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
   {
     UE_LOG(LogTemp, Warning, TEXT("In contact with: %s"), *(ActorHit->GetName()));
   }
+  return FHitResult();
 }
-
