@@ -3,6 +3,7 @@
 #include "Grabber.h"
 #include "DrawDebugHelpers.h"
 #include "CollisionQueryParams.h"
+#include "Components/PrimitiveComponent.h"
 
 #define OUT
 
@@ -13,7 +14,6 @@ UGrabber::UGrabber()
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
 }
-
 
 // Called when the game starts
 void UGrabber::BeginPlay()
@@ -50,32 +50,56 @@ void UGrabber::SetupInputComponent()
   }
 }
 
+// Called every frame
+void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
+{
+	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
+
+  // Get player view point this tick
+  FVector PlayerViewPointLocation;
+  FRotator PlayerViewPointRotator;
+  GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(
+      OUT PlayerViewPointLocation, 
+      OUT PlayerViewPointRotator
+    );
+
+  FVector LineTraceEnd = PlayerViewPointLocation + PlayerViewPointRotator.Vector() * reach;
+
+  // if the physics handle is attached 
+  if (PhysicsHandle->GrabbedComponent)
+  {
+    // move the object that we're holding
+    PhysicsHandle->SetTargetLocation(LineTraceEnd);
+  }
+}
+
 void UGrabber::Grab()
 {
   UE_LOG(LogTemp, Warning, TEXT("Grab Pressed."));
 
   // Line trace and see if we reach any actors with physics body collision channel set
-  GetFirstPhysicsBodyInReach();
+  auto HitResult = GetFirstPhysicsBodyInReach();
+  auto ComponentToGrab = HitResult.GetComponent();
+  auto ActorHit = HitResult.GetActor();
 
   // If we hit something then attach a physics handle
-  // TODO attach physics handle
+  if (ActorHit)
+  {
+    // Attach physics handle
+    PhysicsHandle->GrabComponentAtLocationWithRotation(
+      ComponentToGrab,
+      NAME_None,
+      HitResult.Location, 
+      FRotator::ZeroRotator
+    );
+  }
 }
 
 void UGrabber::Release()
 {
   UE_LOG(LogTemp, Warning, TEXT("Grab Released."));
   // TODO release physics handle
-}
-
-
-// Called every frame
-void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction)
-{
-	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
-
-  // if the physics handle is attached 
-    // move the object that we're holding
-
+  PhysicsHandle->ReleaseComponent();
 }
 
 FHitResult UGrabber::GetFirstPhysicsBodyInReach() const
@@ -124,5 +148,5 @@ FHitResult UGrabber::GetFirstPhysicsBodyInReach() const
   {
     UE_LOG(LogTemp, Warning, TEXT("In contact with: %s"), *(ActorHit->GetName()));
   }
-  return FHitResult();
+  return Hit;
 }
