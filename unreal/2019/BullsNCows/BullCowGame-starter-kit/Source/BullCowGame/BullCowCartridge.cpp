@@ -36,8 +36,6 @@ void UBullCowCartridge::SetupGame()
     PrintLine(TEXT("Guess the %i letter isogram."), HiddenWord.Len());
     PrintLine(TEXT("You have %i lives."), Lives);
     PrintLine(TEXT("Type in your guess...")); // prompt player for guess
-
-    const TCHAR HW[] = TEXT("force");
 }
 
 void UBullCowCartridge::EndGame()
@@ -57,7 +55,7 @@ void UBullCowCartridge::ProcessGuess(FString Guess)
 
     if (Guess.Len() != HiddenWord.Len())
     {
-        PrintLine(TEXT("Word is %i letters long."), HiddenWord.Len());
+        PrintLine(TEXT("The Hidden Word is %i letters long."), HiddenWord.Len());
         PrintLine(TEXT("Sorry, try again! \nYou have %i lives left."), Lives);
         return;
     }
@@ -87,7 +85,18 @@ void UBullCowCartridge::ProcessGuess(FString Guess)
     PrintLine(TEXT("Sorry, try again! \nYou have %i lives left."), Lives);
 }
 
-bool UBullCowCartridge::IsIsogram(FString Word)
+bool UBullCowCartridge::IsIsogram(FString Word) const
 {
+    for (int32 Index = 0; Index < Word.Len(); Index++)
+    {
+        for (int32 Comparison = Index + 1; Comparison < Word.Len(); Comparison++)
+        {
+            if (Word[Index] == Word[Comparison])
+            {
+                return false;
+            }
+        }
+    }
+
     return true;
 }
