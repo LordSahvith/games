@@ -6,11 +6,10 @@ void UBullCowCartridge::BeginPlay() // When the game starts
 {
     // welcoming player
     Super::BeginPlay();
-    SetupGame(); // setup game
 
-    PrintLine(TEXT("The number of possible words is: %i"), Words.Num());
-    PrintLine(TEXT("The number of possible valid words is: %i"), GetValidWords(Words).Num());
-    PrintLine(TEXT("The HiddenWord is: %s."), *HiddenWord); // Debug line
+    Isograms = GetValidWords(Words);
+
+    SetupGame(); // setup game
 }
 
 void UBullCowCartridge::OnInput(const FString& PlayerInput) // When the player hits enter
@@ -29,10 +28,11 @@ void UBullCowCartridge::OnInput(const FString& PlayerInput) // When the player h
 
 void UBullCowCartridge::SetupGame()
 {
-    HiddenWord = TEXT("force");
+    HiddenWord = Isograms[FMath::RandRange(0, Isograms.Num() - 1)];
     Lives = HiddenWord.Len();
     bGameOver = false;
 
+    PrintLine(TEXT("The HiddenWord is: %s."), *HiddenWord); // Debug line
     PrintLine(TEXT("Guess the %i letter isogram."), HiddenWord.Len());
     PrintLine(TEXT("You have %i lives."), Lives);
     PrintLine(TEXT("Type in your guess...")); // prompt player for guess
