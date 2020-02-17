@@ -1,6 +1,7 @@
 // Copyright 2020 Lord Sahvith
 
-
+#include "Engine/World.h"
+#include "GameFramework/PlayerController.h"
 #include "OpenDoor.h"
 #include "GameFramework/Actor.h"
 
@@ -28,6 +29,8 @@ void UOpenDoor::BeginPlay()
     {
         UE_LOG(LogTemp, Error, TEXT("%s has no pressure plate assigned!"), *GetOwner()->GetName());
     }
+
+    ActorThatOpens = GetWorld()->GetFirstPlayerController()->GetPawn();
 }
 
 
@@ -39,12 +42,24 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
     if (PressurePlate && PressurePlate->IsOverlappingActor(ActorThatOpens))
     {
        OpenDoor(DeltaTime);
+    }
+    else 
+    {
+        CloseDoor(DeltaTime);
     }    
 }
 
 void UOpenDoor::OpenDoor(float DeltaTime)
 {
-    CurrentYaw = FMath::Lerp(CurrentYaw, TargetYaw, DeltaTime * 1.25f);
+    CurrentYaw = FMath::Lerp(CurrentYaw, TargetYaw, DeltaTime * 1.0f);
+    FRotator DoorRotation = GetOwner()-> GetActorRotation();
+    DoorRotation.Yaw = CurrentYaw;
+    GetOwner()->SetActorRotation(DoorRotation);
+}
+
+void UOpenDoor::CloseDoor(float DeltaTime)
+{
+    CurrentYaw = FMath::Lerp(CurrentYaw, InitialYaw, DeltaTime * 1.25f);
     FRotator DoorRotation = GetOwner()-> GetActorRotation();
     DoorRotation.Yaw = CurrentYaw;
     GetOwner()->SetActorRotation(DoorRotation);
