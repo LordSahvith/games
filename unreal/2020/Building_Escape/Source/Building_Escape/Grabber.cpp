@@ -29,6 +29,18 @@ void UGrabber::BeginPlay()
     {
         UE_LOG(LogTemp, Error, TEXT("%s has no physics handle component."), *GetOwner()->GetName());
     }
+
+    InputComponent = GetOwner()->FindComponentByClass<UInputComponent>();
+    if (InputComponent)
+    {
+        UE_LOG(LogTemp, Warning, TEXT("Input component found on %s"), *GetOwner()->GetName());
+        InputComponent->BindAction("Grab", IE_Pressed, this, &UGrabber::Grab);
+    }
+    else
+    {
+        UE_LOG(LogTemp, Error, TEXT("Input component missing on %s"), *GetOwner()->GetName());
+    }
+    
 }
 
 // Called every frame
@@ -36,6 +48,48 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 {
     Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
+    // get players viewpoint
+    FVector PLayerViewPointLocation;
+    FRotator PlayerViewPointRotation;
+    GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(
+        OUT PLayerViewPointLocation,
+        OUT PlayerViewPointRotation);
+
+    // draw a line from player showing the reach
+    FVector LineTraceEnd = PLayerViewPointLocation + PlayerViewPointRotation.Vector() * Reach;
+
+    DrawDebugLine(
+        GetWorld(),
+        PLayerViewPointLocation,
+        LineTraceEnd,
+        FColor(255, 0, 0),
+        false,
+        0.f,
+        0,
+        5.f);
+
+    // // ray-cast out to a certain distance (reach)
+    // FHitResult Hit;
+    // FCollisionQueryParams TraceParms(FName(TEXT("")), false, GetOwner());
+
+    // GetWorld()->LineTraceSingleByObjectType(
+    //     OUT Hit,
+    //     PLayerViewPointLocation,
+    //     LineTraceEnd,
+    //     FCollisionObjectQueryParams(ECollisionChannel::ECC_PhysicsBody),
+    //     TraceParms);
+
+    // // see what it hits
+    // AActor *ActorHit = Hit.GetActor();
+
+    // if (ActorHit)
+    // {
+    //     UE_LOG(LogTemp, Warning, TEXT("Grabbing %s"), *(ActorHit->GetName()));
+    // }
+}
+
+void UGrabber::Grab()
+{
     // get players viewpoint
     FVector PLayerViewPointLocation;
     FRotator PlayerViewPointRotation;
@@ -72,6 +126,6 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 
     if (ActorHit)
     {
-        UE_LOG(LogTemp, Warning, TEXT("Grabbing %s"), *(ActorHit->GetName()));
+        UE_LOG(LogTemp, Warning, TEXT("%s grabbing %s"), *GetOwner()->GetName(), *(ActorHit->GetName()));
     }
 }
