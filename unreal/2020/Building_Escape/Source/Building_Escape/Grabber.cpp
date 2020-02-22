@@ -97,14 +97,6 @@ FHitResult UGrabber::GetFirstPhysicsBodyInReach() const
         FCollisionObjectQueryParams(ECollisionChannel::ECC_PhysicsBody),
         TraceParms);
 
-    // see what it hits
-    AActor *ActorHit = Hit.GetActor();
-
-    if (ActorHit)
-    {
-        UE_LOG(LogTemp, Warning, TEXT("Grabbing %s"), *(ActorHit->GetName()));
-    }
-
     return Hit;
 }
 
