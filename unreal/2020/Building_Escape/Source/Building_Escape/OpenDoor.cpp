@@ -78,10 +78,12 @@ void UOpenDoor::OpenDoor(float DeltaTime)
     DoorRotation.Yaw = CurrentYaw;
     GetOwner()->SetActorRotation(DoorRotation);
 
+    bCloseDoorSound = false;
     if (!AudioComponent) { return; }
-    if (!AudioComponent->IsPlaying())
+    if (!bOpenDoorSound)
     {
         AudioComponent->Play();
+        bOpenDoorSound = true;
     }
 }
 
@@ -91,6 +93,14 @@ void UOpenDoor::CloseDoor(float DeltaTime)
     FRotator DoorRotation = GetOwner()->GetActorRotation();
     DoorRotation.Yaw = CurrentYaw;
     GetOwner()->SetActorRotation(DoorRotation);
+
+    bOpenDoorSound = false;
+    if (!AudioComponent) { return; }
+    if (!bCloseDoorSound)
+    {
+        AudioComponent->Play();
+        bCloseDoorSound = true;
+    }
 }
 
 float UOpenDoor::TotalMassOfActors() const

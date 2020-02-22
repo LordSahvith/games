@@ -31,6 +31,10 @@ public:
     void FindPressurePlate();
     void SetupDoorSwingValues();
 
+    // tracks whether the sounds was played
+    bool bOpenDoorSound = false;
+    bool bCloseDoorSound = true;
+
 private:
     float InitialYaw;
     float CurrentYaw;
