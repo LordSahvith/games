@@ -37,22 +37,6 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
     
 }
 
-FHitResult UGrabber::GetFirstPhysicsBodyInReach() const
-{
-    // ray-cast out to a certain distance (reach)
-    FHitResult Hit;
-    FCollisionQueryParams TraceParms(FName(TEXT("")), false, GetOwner());
-
-    GetWorld()->LineTraceSingleByObjectType(
-        OUT Hit,
-        GetPlayersWorldPos(),
-        GetPlayerReach(),
-        FCollisionObjectQueryParams(ECollisionChannel::ECC_PhysicsBody),
-        TraceParms);
-
-    return Hit;
-}
-
 // check for a physics handle component
 void UGrabber::FindPhysicsHandle()
 {
@@ -96,6 +80,22 @@ void UGrabber::Grab()
 void UGrabber::Release()
 {
     PhysicsHandle->ReleaseComponent();
+}
+
+FHitResult UGrabber::GetFirstPhysicsBodyInReach() const
+{
+    // ray-cast out to a certain distance (reach)
+    FHitResult Hit;
+    FCollisionQueryParams TraceParms(FName(TEXT("")), false, GetOwner());
+
+    GetWorld()->LineTraceSingleByObjectType(
+        OUT Hit,
+        GetPlayersWorldPos(),
+        GetPlayerReach(),
+        FCollisionObjectQueryParams(ECollisionChannel::ECC_PhysicsBody),
+        TraceParms);
+
+    return Hit;
 }
 
 FVector UGrabber::GetPlayerReach() const 
