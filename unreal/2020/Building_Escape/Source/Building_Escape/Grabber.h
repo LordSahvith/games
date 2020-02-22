@@ -37,5 +37,8 @@ private:
 
     // return first actor within reach with physics body
     FHitResult GetFirstPhysicsBodyInReach() const;
+
+    // return line trace end
+    FVector GetLineTraceEnd() const;
 		
 };

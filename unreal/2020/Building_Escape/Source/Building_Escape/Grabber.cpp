@@ -73,16 +73,6 @@ void UGrabber::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompone
 
 void UGrabber::Grab()
 {
-    // get players viewpoint
-    FVector PLayerViewPointLocation;
-    FRotator PlayerViewPointRotation;
-    GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(
-        OUT PLayerViewPointLocation,
-        OUT PlayerViewPointRotation);
-
-    // draw a line from player showing the reach
-    FVector LineTraceEnd = PLayerViewPointLocation + PlayerViewPointRotation.Vector() * Reach;
-
     FHitResult HitResult = GetFirstPhysicsBodyInReach();
     UPrimitiveComponent *ComponentToGrab = HitResult.GetComponent();
 
@@ -92,8 +82,21 @@ void UGrabber::Grab()
         PhysicsHandle->GrabComponentAtLocation(
             ComponentToGrab,
             NAME_None,
-            LineTraceEnd);
+            GetLineTraceEnd());
     }
+}
+
+FVector UGrabber::GetLineTraceEnd() const 
+{
+    // get players viewpoint
+    FVector PLayerViewPointLocation;
+    FRotator PlayerViewPointRotation;
+    GetWorld()->GetFirstPlayerController()->GetPlayerViewPoint(
+        OUT PLayerViewPointLocation,
+        OUT PlayerViewPointRotation);
+
+    // draw a line from player showing the reach
+    return PLayerViewPointLocation + PlayerViewPointRotation.Vector() * Reach;
 }
 
 void UGrabber::Release()
