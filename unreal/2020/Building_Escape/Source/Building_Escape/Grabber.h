@@ -25,7 +25,7 @@ protected:
 	virtual void BeginPlay() override;
 
 private:
-    float Reach = 100.f;
+    float Reach = 120.f;
 
     UPhysicsHandleComponent* PhysicsHandle = nullptr;
     UInputComponent* InputComponent = nullptr;
@@ -41,4 +41,6 @@ private:
     // return line trace end
     FVector GetLineTraceEnd() const;
 		
+    // get player view point
+    FVector GetPlayerViewPointLocation() const;
 };
