@@ -29,7 +29,7 @@ public:
     float TotalMassOfActors() const;
     void FindAudioComponent();
     void FindPressurePlate();
-    void SetupDoorSwingValues();
+    void SetupDoorOpenOptions();
 
     // tracks whether the sounds was played
     bool bOpenDoorSound = false;
@@ -58,6 +58,9 @@ private:
 
     UPROPERTY(EditAnywhere)
     ATriggerVolume* PressurePlate = nullptr;
+		
+    UPROPERTY(EditAnywhere)
+    AActor* ActorThatOpens = nullptr;
 
     UPROPERTY()
     UAudioComponent* AudioComponent = nullptr;

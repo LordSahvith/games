@@ -22,13 +22,18 @@ void UOpenDoor::BeginPlay()
 {
     Super::BeginPlay();
 
-    SetupDoorSwingValues();
+    SetupDoorOpenOptions();
     FindPressurePlate();
     FindAudioComponent();
 }
 
-void UOpenDoor::SetupDoorSwingValues()
+void UOpenDoor::SetupDoorOpenOptions()
 {
+    if (!ActorThatOpens)
+    {
+        UE_LOG(LogTemp, Error, TEXT("%s doesn't have ActorThatOpens set."), *GetOwner()->GetName());
+        ActorThatOpens = GetWorld()->GetFirstPlayerController()->GetPawn();
+    }
     InitialYaw = GetOwner()->GetActorRotation().Yaw;
     CurrentYaw = InitialYaw;
     OpenAngle += InitialYaw;
@@ -57,7 +62,7 @@ void UOpenDoor::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 {
     Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-    if (TotalMassOfActors() > MassToOpenDoors)
+    if (TotalMassOfActors() > MassToOpenDoors || (PressurePlate && PressurePlate->IsOverlappingActor(ActorThatOpens)))
     {
         OpenDoor(DeltaTime);
         DoorLastOpened = GetWorld()->GetTimeSeconds();
@@ -116,6 +121,7 @@ float UOpenDoor::TotalMassOfActors() const
     for (AActor *Actor : OverlappingActors)
     {
         TotalMass += Actor->FindComponentByClass<UPrimitiveComponent>()->GetMass();
+        UE_LOG(LogTemp, Warning, TEXT("%s is on the pressure plate."), *Actor->GetName());
     }
 
     return TotalMass;
